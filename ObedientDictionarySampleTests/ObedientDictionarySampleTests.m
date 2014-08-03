@@ -36,9 +36,9 @@
 	id nm = @{@"key3": @"value3", @"key2": @"value2", @"key1": @"value1"};
 	XCTAssertFalse([nm isKindOfClass:[NSMutableDictionary class]], @"literal is not NSMutableDictionary");
 	
-	// Incompatible pointer types initializing 'NSMutableDictionary *' with an expression of type 'NSDictionary *'
+	// Incompatible pointer types initializing 'ObedientDictionary *' with an expression of type 'NSDictionary *'
 	id od = @{@"key3": @"value3", @"key2": @"value2", @"key1": @"value1"};
-	XCTAssertFalse([od isKindOfClass:[ObedientDictionary class]], @"literal is not ObedientDictionary");
+	XCTAssertFalse([od isKindOfClass:[ObedientDictionary class]], @"literal is not ObedientDictionary"); // !!!: Not comaptible!
 }
 
 - (void)testCount
@@ -137,7 +137,7 @@
 - (void)testInit
 {
 	XCTAssertNotNil([[NSMutableDictionary alloc] init], @"must be not nil");
-	XCTAssertNotNil([[ObedientDictionary alloc] init], @"must be not nil");
+	XCTAssertNotNil([[ObedientDictionary  alloc] init], @"must be not nil");
 }
 
 - (void)testInitWithObjectsForKeysCount
@@ -240,6 +240,25 @@
 	for (NSString *key in [od allKeys]) {
 		XCTAssertTrue(([key isEqualToString:[NSString stringWithFormat:@"key%ld", (long)number]]), @"same to key order by initializer");
 		number--;
+	}
+	
+	{
+		NSString *key1 = @"key1";
+		NSString *key2 = @"key2";
+
+		NSMutableDictionary *ns = [[NSMutableDictionary alloc] init];
+		[ns setObject:@"value1" forKey:key1];
+		[ns setObject:@"value2" forKey:key2];
+		NSArray *nska = [ns allKeys];
+		XCTAssertNotEqual(nska[0], key1, @"key is not same object");
+		XCTAssertNotEqual(nska[1], key2, @"key is not same object");
+
+		ObedientDictionary  *od = [[ObedientDictionary alloc] init];
+		[od setObject:@"value1" forKey:key1];
+		[od setObject:@"value2" forKey:key2];
+		NSArray *odka = [od allKeys];
+		XCTAssertEqual(odka[0], key1, @"key is same object"); // !!!: Incomaptible action!
+		XCTAssertEqual(odka[1], key2, @"key is same object"); // !!!: Incomaptible action!
 	}
 }
 

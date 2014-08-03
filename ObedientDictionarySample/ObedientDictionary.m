@@ -138,6 +138,9 @@
 			if (!key) {
 				@throw NSInvalidArgumentException;
 			}
+			// !!!: This is incompatible action with NSMutableDictionary.
+			// The specified key object will be copy by setObject operation.
+			// Therefore the hash of copied key will be different a hash of key stored to array.
 			[_p_dictionary setObject:value forKey:key];
 			[_p_dictionaryKeys addObject:key];
 			value = va_arg(arguments, id);
@@ -177,6 +180,9 @@
 
 - (NSArray *)allKeys
 {
+	// !!!: This is incompatible action with NSMutableDictionary.
+	// see also initWithObjectsAndKeys:
+	// see also setObject:forKey:
 	return _p_dictionaryKeys;
 }
 
@@ -240,10 +246,13 @@
 
 - (void)setObject:(id)anObject forKey:(id <NSCopying>)aKey
 {
+	// !!!: This is incompatible action with NSMutableDictionary.
+	// The specified key object will be copy by setObject operation.
+	// Therefore the hash of copied key will be different a hash of key stored to array.
+	[_p_dictionary setObject:anObject forKey:aKey];
 	if (![_p_dictionaryKeys containsObject:aKey]) {
 		[_p_dictionaryKeys addObject:aKey];
 	}
-	[_p_dictionary setObject:anObject forKey:aKey];
 }
 
 @end
