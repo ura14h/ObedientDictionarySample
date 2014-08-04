@@ -52,7 +52,7 @@
 //- (BOOL)writeToURL:(NSURL *)url atomically:(BOOL)atomically;
 //- (NSArray *)keysSortedByValueUsingSelector:(SEL)comparator;
 //- (void)getObjects:(id __unsafe_unretained [])objects andKeys:(id __unsafe_unretained [])keys;
-//- (void)enumerateKeysAndObjectsUsingBlock:(void (^)(id key, id obj, BOOL *stop))block;
+- (void)enumerateKeysAndObjectsUsingBlock:(void (^)(id key, id obj, BOOL *stop))block;
 //- (void)enumerateKeysAndObjectsWithOptions:(NSEnumerationOptions)opts usingBlock:(void (^)(id key, id obj, BOOL *stop))block;
 //- (NSArray *)keysSortedByValueUsingComparator:(NSComparator)cmptr;
 //- (NSArray *)keysSortedByValueWithOptions:(NSSortOptions)opts usingComparator:(NSComparator)cmptr;

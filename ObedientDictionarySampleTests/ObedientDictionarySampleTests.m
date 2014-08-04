@@ -361,7 +361,21 @@
 
 - (void)testEnumerateKeysAndObjectsWithOptionsUsingBlock
 {
-	// TODO: put testing code here.
+	NSMutableDictionary *ns = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"value3", @"key3", @"value2", @"key2", @"value1", @"key1", nil];
+	NSMutableArray *nsa = [NSMutableArray array];
+	[ns enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+		[nsa addObject:key];
+	}];
+	NSLog(@"nsa=%@", nsa);
+	ObedientDictionary  *od = [[ObedientDictionary  alloc] initWithObjectsAndKeys:@"value3", @"key3", @"value2", @"key2", @"value1", @"key1", nil];
+	NSMutableArray *oda = [NSMutableArray array];
+	[od enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+		[oda addObject:key];
+	}];
+	NSLog(@"oda=%@", oda);
+	XCTAssertTrue(([oda[0] isEqualToString:@"key3"]), @"the order is same to initializer");
+	XCTAssertTrue(([oda[1] isEqualToString:@"key2"]), @"the order is same to initializer");
+	XCTAssertTrue(([oda[2] isEqualToString:@"key1"]), @"the order is same to initializer");
 }
 
 - (void)testKeysSortedByValueUsingComparator

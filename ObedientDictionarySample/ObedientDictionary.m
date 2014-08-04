@@ -227,9 +227,22 @@
 //- (BOOL)writeToURL:(NSURL *)url atomically:(BOOL)atomically;
 //- (NSArray *)keysSortedByValueUsingSelector:(SEL)comparator;
 //- (void)getObjects:(id __unsafe_unretained [])objects andKeys:(id __unsafe_unretained [])keys;
-//- (void)enumerateKeysAndObjectsUsingBlock:(void (^)(id key, id obj, BOOL *stop))block;
+
+- (void)enumerateKeysAndObjectsUsingBlock:(void (^)(id key, id obj, BOOL *stop))block
+{
+	for (id key in _p_dictionaryKeys) {
+		if (block) {
+			BOOL stop = NO;
+			block(key, _p_dictionary[key], &stop);
+			if (stop) {
+				break;
+			}
+		}
+	}
+}
+
 //- (void)enumerateKeysAndObjectsWithOptions:(NSEnumerationOptions)opts usingBlock:(void (^)(id key, id obj, BOOL *stop))block;
-//- (NSArray *)keysSortedByValueUsingComparator:(NSComparator)cmptr NS_AVAILABLE(10_6, 4_0);
+//- (NSArray *)keysSortedByValueUsingComparator:(NSComparator)cmptr;
 //- (NSArray *)keysSortedByValueWithOptions:(NSSortOptions)opts usingComparator:(NSComparator)cmptr;
 //- (NSSet *)keysOfEntriesPassingTest:(BOOL (^)(id key, id obj, BOOL *stop))predicate;
 //- (NSSet *)keysOfEntriesWithOptions:(NSEnumerationOptions)opts passingTest:(BOOL (^)(id key, id obj, BOOL *stop))predicate;
